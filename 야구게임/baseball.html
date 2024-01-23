@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>야구게임</title>
+    <style>
+        input, button, div{
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>숫자를 입력하세요</h1>
+    <input type="text" class="input" placeholder='숫자 4자리를 입력하세요'>
+    <button class="button">눌러</button>
+    <h2 class="result">결과:</h2>
+    <div class="cont">
+    </div>
+    <script>
+        const container = document.querySelector('.cont');
+        const inputEl = document.querySelector('.input');
+        const btnEl = document.querySelector('.button');
+        
+        let ansArr = [];
+        let  cmpArr = [];
+        let ball = 0;
+        let strike = 0;
+
+        for(let i = 0; i < 4; i++){
+            let randomNum = Math.floor(Math.random()*9)+1;
+            if(ansArr.indexOf(randomNum) === -1){
+                ansArr.push(randomNum);
+            }
+            else i--;
+        }
+
+        console.log(ansArr);
+        function cmpNum(){
+            for(let i = 0; i < 4; i++){
+                for(let j = 0; j < 4; j++){
+                    if(ansArr[i] == cmpArr[j]) ball++;
+                }
+            }
+            container.innerHTML = '';
+            const ballDiv = document.createElement('div');
+            ballDiv.innerText = `${ball} ball ${4-ball} out`
+            container.append(ballDiv);
+        }
+        function cmpIndex(){
+            for(let i = 0; i < 4; i++){
+                if(ansArr[i] == cmpArr[i]) strike++;
+            }
+            const strikeDiv = document.createElement('div');
+            strikeDiv.innerText = `${strike} strike`
+            if(strike == 4 && ball == 4) strikeDiv.innerHTML += '<br> Home Run';
+            container.append(strikeDiv);
+        }
+
+        btnEl.addEventListener('click', function(){
+            //초기화
+            ball = 0;
+            strike = 0;
+
+            cmpArr = inputEl.value;
+            cmpNum();
+            cmpIndex();
+        })
+    </script>
+</body>
+</html>
